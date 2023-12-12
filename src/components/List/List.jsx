@@ -5,11 +5,17 @@ import { v4 as uuidv4 } from "uuid"
 const List = () => {
 
     const wishInput = useContext(WishListContext)
-    const wishArray = wishInput.wishArray;
+    const wishArrayState = wishInput.wishArray;
 
+    // stringify data + update localStorage each time state changes
+    useEffect(() => {
+        localStorage.setItem("wish", JSON.stringify(wishArrayState))
+    }, [wishArrayState])
+    
+    // remove item from list
     const removeWish = (button) => {
 
-        const newWishList = wishArray.filter((wish) => {
+        const newWishList = wishArrayState.filter((wish) => {
             if(wish.name !== button.target.name)
             {
                 return wish;
@@ -18,16 +24,17 @@ const List = () => {
         wishInput.setWishArray(newWishList)
         
     }
-        
+    
+    // conditional rendering
     const ListElement = () => {
 
-        if(wishArray.length < 1)
+        if(wishArrayState.length < 1)
         {
             return <p>Santa's inbox is empty! 🎅</p>
         }
 
         return <>
-                    {wishArray.map((wish) => (
+                    {wishArrayState.map((wish) => (
                         <div key={uuidv4()}>
                             <input 
                             onChange={(e) => 

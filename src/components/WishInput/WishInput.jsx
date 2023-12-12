@@ -3,23 +3,15 @@ import { WishListContext } from "../Context/Context";
 
 const WishInput = () => {
 
-    const [textInput, setTextInput] = useState("")
-    const [optionInput, setOptionInput] = useState("")
+    const [textInput, setTextInput] = useState("");
+    const [optionInput, setOptionInput] = useState("");
+    const [newWish, setNewWish] = useState({});
     const wishList = useContext(WishListContext);
-    const wishSetter = wishList.setWishArray;
 
-    // update state  user input (object) wishArray state
-    const addToWishList = () =>
-    {
-        event.preventDefault()
-        const newWish = {
-            name: textInput,
-            priority: optionInput
-        };
-
-        wishSetter(wishGetter => [...wishGetter, newWish])
-        setTextInput("");
-    }
+    // update data array state each time newWish state is changed
+    useEffect(() => {
+        wishList.setWishArray([...wishList.wishArray, newWish])
+    }, [newWish])
 
     return ( 
         <>
@@ -39,7 +31,7 @@ const WishInput = () => {
                     <option value="high">High</option>
                     <option value="low">Low</option>
                 </select>
-                <button onClick={addToWishList}>Add wish</button>
+                <button onClick={() => setNewWish({name: textInput, priority: optionInput})}>Add wish</button>
             </form>
         </>
     );

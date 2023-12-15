@@ -8,10 +8,25 @@ const WishInput = () => {
     const [newWish, setNewWish] = useState({});
     const wishList = useContext(WishListContext);
 
+
     // update data array state each time newWish state is changed
     useEffect(() => {
-        wishList.setWishArray([...wishList.wishArray, newWish])
+        wishList.setWishArray([...wishList.wishArray, newWish]);
     }, [newWish])
+
+    const handleAddWish = () => {
+        event.preventDefault()
+
+        if(textInput.length > 0)
+        {
+            setNewWish({name: textInput, priority: optionInput});
+            setTextInput("");
+        } 
+        else
+        {
+            console.log("invalid input");
+        }
+    }
 
     return ( 
         <>
@@ -19,8 +34,8 @@ const WishInput = () => {
             <form>
                 <input 
                 onChange={(input) => setTextInput(input.target.value)} 
-                type="text" id="userInput" 
-                placeholder="Type in your wish" 
+                type="text" 
+                placeholder="Type in your wish"
                 value={textInput}
                 />
                 
@@ -31,7 +46,7 @@ const WishInput = () => {
                     <option value="high">High</option>
                     <option value="low">Low</option>
                 </select>
-                <button onClick={() => setNewWish({name: textInput, priority: optionInput})}>Add wish</button>
+                <button onClick={handleAddWish}>Add wish</button>
             </form>
         </>
     );

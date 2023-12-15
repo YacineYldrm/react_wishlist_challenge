@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { WishListContext } from "../Context/Context";
 import { v4 as uuidv4 } from "uuid"
+import WishItem from "../WishItem/WishItem";
 
 const List = () => {
 
@@ -33,22 +34,16 @@ const List = () => {
             return <p>Santa's inbox is empty! 🎅</p>
         }
 
-        return <>
-                    {wishArrayState.map((wish) => (
-                        <div key={uuidv4()}>
-                            <input 
-                            onChange={(e) => 
-                                e.target.checked ? e.target.nextSibling.classList.add('line-through', 'text-gray-600') : 
-                                e.target.nextSibling.classList.remove('line-through', 'text-gray-600') } 
-                            type="checkbox"/>
-                            <p  
-                            className={`${wish.priority === "high" ? "bg-red-500" : "bg-green-500"}`}>{wish.name}</p>
-                            <button 
-                            name={wish.name} 
-                            onClick={removeWish}>Delete</button>
-                        </div>
-                    ))}
-                </>
+        return <ul>
+                    {wishArrayState.map((wish) => <WishItem
+                        key={uuidv4()}
+                        name={wish.name}
+                        priority={wish.priority}
+                        checked={wish.checked}
+                        id={wish.id}
+                    />
+                    )}
+                </ul>
     }
 
     return ( 

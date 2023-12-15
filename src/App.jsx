@@ -6,27 +6,25 @@ import { WishListContext } from './components/Context/Context'
 
 function App() {
 
-  // get local data
+  // get data from local storage
   const getLocalData = () => {
 		const wishArrayLocal = localStorage.getItem("wish");
 		return wishArrayLocal ? JSON.parse(wishArrayLocal) : [];
 	};
 
   // set data array state to local storage data
-  const [wishArray, setWishArray ] = useState(getLocalData)
-  console.log(wishArray);
-
+  const [wishArray, setWishArray ] = useState(getLocalData);
   const wishContext = useContext(WishListContext);
 
   // update state each time state changes
   useEffect(() => {
 		setWishArray(getLocalData);
-	}, [wishContext]);
+	}, []);
 
   return (
-    <WishListContext.Provider value={{ wishArray, setWishArray }}>
-    <Header/>
-    <Home/>
+    <WishListContext.Provider value={{ wishArray, setWishArray}}>
+        <Header/>
+        <Home/>
     </WishListContext.Provider>
   )
 }
